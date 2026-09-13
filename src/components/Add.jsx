@@ -8,10 +8,20 @@ import Modal from 'react-bootstrap/Modal';
 
 
 function Add() {
+  //create a state to hold data from input
+  const[video,setVideo] = useState({
+    caption:"",
+    image:"",
+    url:""
+  })
+
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  console.log(video);
+  
 
 
   return (
@@ -26,8 +36,8 @@ function Add() {
         <Modal.Body>
           <p>Please fill the following details</p>
           <form className='border p-3 rounded border-secondary'>
-            <input type="text" placeholder='Video Caption' className='form-control' />
-            <input type="text" placeholder='Video Image' className='form-control mt-3' />
+            <input type="text" placeholder='Video Caption' className='form-control' onChange={(e)=>setVideo({...video,caption:e.target.value})}/>
+            <input type="text" placeholder='Video Image' className='form-control mt-3' onChange={(e)=>setVideo({...video,image:e.target.value})}/>
             <input type="text" placeholder='Video Url' className='form-control mt-3' />
 
           </form>

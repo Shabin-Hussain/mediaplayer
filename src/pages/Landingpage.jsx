@@ -1,6 +1,7 @@
 
 import React from 'react'
 import Card from 'react-bootstrap/Card';
+import { Link } from 'react-router-dom';
 
 
 
@@ -15,7 +16,7 @@ function Landingpage() {
           <h3>Welcome to <span className='text-warning'>Media Player</span></h3>
           <p style={{ textAlign: 'justify' }}>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolor, facere aperiam accusantium corrupti esse nihil soluta temporibus dolores quas numquam ea deleniti mollitia ab! Cum deleniti sunt architecto delectus beatae.Incidunt fugiat consectetur cum quae itaque exercitationem nobis consequatur praesentium eveniet doloribus optio, ab, et eum corrupti aspernatur totam nihil doloremque deserunt reiciendis quam facere quaerat. Debitis repudiandae nulla voluptate.</p>
 
-          <button className='btn btn-warning mt-5'>Get Started</button>
+          <button className='btn btn-warning mt-5'><Link to={'/home'} style={{textDecoration:'none',color:'white'}}>Get Started</Link></button>
         </div>
         <div className="col-md-1"></div>
         <div className="col-md-5 d-flex justify-content-center  align-items-center p-md-5">
