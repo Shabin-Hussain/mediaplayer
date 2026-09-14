@@ -9,10 +9,10 @@ import Modal from 'react-bootstrap/Modal';
 
 function Add() {
   //create a state to hold data from input
-  const[video,setVideo] = useState({
-    caption:"",
-    image:"",
-    url:""
+  const [video, setVideo] = useState({
+    caption: "",
+    image: "",
+    url: ""
   })
 
   const [show, setShow] = useState(false);
@@ -21,7 +21,48 @@ function Add() {
   const handleShow = () => setShow(true);
 
   console.log(video);
-  
+
+  const validateLink = (e) => {
+    console.log(e.target.value);
+    const link = e.target.value
+    console.log(typeof (link));
+    if (link.endsWith('?feature=shared')) {
+      const yTkey = link.slice(-26, -15)
+      console.log(yTkey);
+      let embedLink = `https://www.youtube.com/embed/${yTkey}`
+      setVideo({ ...video, url: embedLink })
+
+    }
+
+    else if (link.startsWith('https://youtu.be')) {
+      const yTkey = link.slice(17, 28)
+      console.log(yTkey);
+      let embedLink = `https://www.youtube.com/embed/${yTkey}`
+      setVideo({ ...video, url: embedLink })
+
+    }
+
+    else {
+      const yTkey = link.slice(-11)
+      console.log(yTkey);
+      let embedLink = `https://www.youtube.com/embed/${yTkey}`
+      setVideo({ ...video, url: embedLink })
+    }
+
+
+
+  }
+
+
+
+  //https://www.youtube.com/watch?v=a0goLSCAcBw
+  //https://youtu.be/a0goLSCAcBw?si=OlcXl-ChRe6Y4Xk3
+  //https://www.youtube.com/embed/a0goLSCAcBw
+
+
+
+  //<iframe width="824" height="463" src="https://www.youtube.com/embed/a0goLSCAcBw?list=RDMMa0goLSCAcBw" title="Hope Song - Video | Sarkeet | Asif Ali | Thamar | Govind Vasantha | Kapil Kapilan | Anwar Ali" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 
 
   return (
@@ -36,9 +77,9 @@ function Add() {
         <Modal.Body>
           <p>Please fill the following details</p>
           <form className='border p-3 rounded border-secondary'>
-            <input type="text" placeholder='Video Caption' className='form-control' onChange={(e)=>setVideo({...video,caption:e.target.value})}/>
-            <input type="text" placeholder='Video Image' className='form-control mt-3' onChange={(e)=>setVideo({...video,image:e.target.value})}/>
-            <input type="text" placeholder='Video Url' className='form-control mt-3' />
+            <input type="text" placeholder='Video Caption' className='form-control' onChange={(e) => setVideo({ ...video, caption: e.target.value })} />
+            <input type="text" placeholder='Video Image' className='form-control mt-3' onChange={(e) => setVideo({ ...video, image: e.target.value })} />
+            <input type="text" placeholder='Video Url' className='form-control mt-3' onChange={(e) => validateLink(e)} />
 
           </form>
         </Modal.Body>
