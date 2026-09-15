@@ -44,6 +44,7 @@ function Add() {
         console.log(yTkey);
         let embedLink = `https://www.youtube.com/embed/${yTkey}`
         setVideo({ ...video, url: embedLink })
+        console.log(video);
 
       }
 
@@ -52,6 +53,7 @@ function Add() {
         console.log(yTkey);
         let embedLink = `https://www.youtube.com/embed/${yTkey}`
         setVideo({ ...video, url: embedLink })
+        console.log(video);
 
       }
 
