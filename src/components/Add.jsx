@@ -17,41 +17,85 @@ function Add() {
 
   const [show, setShow] = useState(false);
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => setShow(false)
   const handleShow = () => setShow(true);
 
-  console.log(video);
-
-  const validateLink = (e) => {
-    console.log(e.target.value);
-    const link = e.target.value
-    console.log(typeof (link));
-    if (link.endsWith('?feature=shared')) {
-      const yTkey = link.slice(-26, -15)
-      console.log(yTkey);
-      let embedLink = `https://www.youtube.com/embed/${yTkey}`
-      setVideo({ ...video, url: embedLink })
-
-    }
-
-    else if (link.startsWith('https://youtu.be')) {
-      const yTkey = link.slice(17, 28)
-      console.log(yTkey);
-      let embedLink = `https://www.youtube.com/embed/${yTkey}`
-      setVideo({ ...video, url: embedLink })
-
-    }
-
-    else {
-      const yTkey = link.slice(-11)
-      console.log(yTkey);
-      let embedLink = `https://www.youtube.com/embed/${yTkey}`
-      setVideo({ ...video, url: embedLink })
-    }
-
-
-
+  const handleClose1 = () => {
+    setVideo({
+      caption: "",
+      image: "",
+      url: ""
+    })
   }
+
+
+
+  const handleUpload = (e) => {
+    //to prevent data loss
+    e.preventDefault()
+
+    const { caption, image, url } = video
+    if (!caption || !image || !url) {
+      alert('Please fill the form completely')
+    }
+    else {
+      if (url.endsWith('?feature=shared')) {
+        const yTkey = url.slice(-26, -15)
+        console.log(yTkey);
+        let embedLink = `https://www.youtube.com/embed/${yTkey}`
+        setVideo({ ...video, url: embedLink })
+
+      }
+
+      else if (url.startsWith('https://youtu.be')) {
+        const yTkey = url.slice(17, 28)
+        console.log(yTkey);
+        let embedLink = `https://www.youtube.com/embed/${yTkey}`
+        setVideo({ ...video, url: embedLink })
+
+      }
+
+      else {
+        const yTkey = url.slice(-11)
+        console.log(yTkey);
+        let embedLink = `https://www.youtube.com/embed/${yTkey}`
+        setVideo({ ...video, url: embedLink })
+        console.log(video);
+      }
+
+    }
+  }
+
+  /*   const validateLink = (e) => {
+      console.log(e.target.value);
+      const link = e.target.value
+      console.log(typeof (link));
+      if (link.endsWith('?feature=shared')) {
+        const yTkey = link.slice(-26, -15)
+        console.log(yTkey);
+        let embedLink = `https://www.youtube.com/embed/${yTkey}`
+        setVideo({ ...video, url: embedLink })
+  
+      }
+  
+      else if (link.startsWith('https://youtu.be')) {
+        const yTkey = link.slice(17, 28)
+        console.log(yTkey);
+        let embedLink = `https://www.youtube.com/embed/${yTkey}`
+        setVideo({ ...video, url: embedLink })
+  
+      }
+  
+      else {
+        const yTkey = link.slice(-11)
+        console.log(yTkey);
+        let embedLink = `https://www.youtube.com/embed/${yTkey}`
+        setVideo({ ...video, url: embedLink })
+      }
+  
+  
+  
+    } */
 
 
 
@@ -77,17 +121,17 @@ function Add() {
         <Modal.Body>
           <p>Please fill the following details</p>
           <form className='border p-3 rounded border-secondary'>
-            <input type="text" placeholder='Video Caption' className='form-control' onChange={(e) => setVideo({ ...video, caption: e.target.value })} />
-            <input type="text" placeholder='Video Image' className='form-control mt-3' onChange={(e) => setVideo({ ...video, image: e.target.value })} />
-            <input type="text" placeholder='Video Url' className='form-control mt-3' onChange={(e) => validateLink(e)} />
+            <input type="text" placeholder='Video Caption' value={video.caption} className='form-control' onChange={(e) => setVideo({ ...video, caption: e.target.value })} />
+            <input type="text" placeholder='Video Image' value={video.image} className='form-control mt-3' onChange={(e) => setVideo({ ...video, image: e.target.value })} />
+            <input type="text" placeholder='Video Url' value={video.url} className='form-control mt-3' onChange={(e) => setVideo({ ...video, url: e.target.value })} />
 
           </form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="secondary" onClick={handleClose1}>
             Cancel
           </Button>
-          <Button variant="warning" onClick={handleClose}>
+          <Button variant="warning" onClick={handleUpload}>
             Upload
           </Button>
         </Modal.Footer>
