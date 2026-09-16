@@ -4,6 +4,7 @@ import React from 'react'
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import { addVideoApi } from '../services/allApi';
 
 
 
@@ -18,57 +19,19 @@ function Add() {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false)
-  const handleShow = () => setShow(true);
-
-  const handleClose1 = () => {
+  const handleShow = () => {
+    setShow(true);
     setVideo({
       caption: "",
-      image: "",
-      url: ""
+    image: "",
+    url: ""
     })
   }
 
 
 
-  const handleUpload = (e) => {
-    //to prevent data loss
-    e.preventDefault()
 
-    const { caption, image, url } = video
-    if (!caption || !image || !url) {
-      alert('Please fill the form completely')
-    }
-    else {
-      if (url.endsWith('?feature=shared')) {
-        const yTkey = url.slice(-26, -15)
-        console.log(yTkey);
-        let embedLink = `https://www.youtube.com/embed/${yTkey}`
-        setVideo({ ...video, url: embedLink })
-        console.log(video);
-
-      }
-
-      else if (url.startsWith('https://youtu.be')) {
-        const yTkey = url.slice(17, 28)
-        console.log(yTkey);
-        let embedLink = `https://www.youtube.com/embed/${yTkey}`
-        setVideo({ ...video, url: embedLink })
-        console.log(video);
-
-      }
-
-      else {
-        const yTkey = url.slice(-11)
-        console.log(yTkey);
-        let embedLink = `https://www.youtube.com/embed/${yTkey}`
-        setVideo({ ...video, url: embedLink })
-        console.log(video);
-      }
-
-    }
-  }
-
-  /*   const validateLink = (e) => {
+     const validateLink = (e) => {
       console.log(e.target.value);
       const link = e.target.value
       console.log(typeof (link));
@@ -97,7 +60,26 @@ function Add() {
   
   
   
-    } */
+    } 
+
+    console.log(video);
+    
+
+
+      const handleUpload = async(e) => {
+    //to prevent data loss
+    e.preventDefault()
+
+    const { caption, image, url } = video
+    if (!caption || !image || !url) {
+      alert('Please fill the form completely')
+    }
+    else {
+      const result = await addVideoApi(video)
+      console.log(result);
+      
+    }
+  }
 
 
 
@@ -123,14 +105,14 @@ function Add() {
         <Modal.Body>
           <p>Please fill the following details</p>
           <form className='border p-3 rounded border-secondary'>
-            <input type="text" placeholder='Video Caption' value={video.caption} className='form-control' onChange={(e) => setVideo({ ...video, caption: e.target.value })} />
-            <input type="text" placeholder='Video Image' value={video.image} className='form-control mt-3' onChange={(e) => setVideo({ ...video, image: e.target.value })} />
-            <input type="text" placeholder='Video Url' value={video.url} className='form-control mt-3' onChange={(e) => setVideo({ ...video, url: e.target.value })} />
+            <input type="text" placeholder='Video Caption'  className='form-control' onChange={(e) => setVideo({ ...video, caption: e.target.value })} />
+            <input type="text" placeholder='Video Image'  className='form-control mt-3' onChange={(e) => setVideo({ ...video, image: e.target.value })} />
+            <input type="text" placeholder='Video Url' className='form-control mt-3' onChange={(e) => validateLink(e)} />
 
           </form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose1}>
+          <Button variant="secondary" onClick={handleClose}>
             Cancel
           </Button>
           <Button variant="warning" onClick={handleUpload}>
