@@ -5,7 +5,8 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { addVideoApi } from '../services/allApi';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function Add() {
@@ -72,11 +73,19 @@ function Add() {
 
     const { caption, image, url } = video
     if (!caption || !image || !url) {
-      alert('Please fill the form completely')
+      toast.info('Please fill the form completely')
     }
     else {
       const result = await addVideoApi(video)
       console.log(result);
+      if(result.status>=200 && result.status<300){
+        toast.success('Video Uploaded Successfully')
+        handleClose()
+      }
+      else{
+        toast.error('Something went wrong')
+        handleClose()
+      }
       
     }
   }
@@ -94,10 +103,12 @@ function Add() {
 
 
   return (
+    <>
     <div className='d-flex align-items-center'>
       <h5 id='h'>Upload new video</h5>
       <button className='btn mb-2' onClick={handleShow}><FontAwesomeIcon icon={faCloudArrowUp} size='xl' /></button>
-
+   
+    </div>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title className='text-warning'><FontAwesomeIcon icon={faFilm} className='me-2' />Upload Videos</Modal.Title>
@@ -120,8 +131,8 @@ function Add() {
           </Button>
         </Modal.Footer>
       </Modal>
-
-    </div>
+       <ToastContainer theme='colored' position='top-center' autoClose={2000}/>
+   </>
   )
 }
 
