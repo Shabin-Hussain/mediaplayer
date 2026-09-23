@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Add from '../components/Add'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -13,10 +13,11 @@ import Category from '../components/Category'
 
 
 function Home() {
+  const[addStatus,setAddStatus] = useState([])
   return (
    <>
       <div className='d-flex mt-5 p-5'>
-       <Add/>
+       <Add setAddStatus={setAddStatus}/>
   
        <h5 className='ms-auto'><Link style={{textDecoration:'none',color:'white'}} to={'/watch-history'}><span id='h'>Watch History</span><FontAwesomeIcon icon={faClockRotateLeft} /></Link></h5>
       </div>
@@ -24,7 +25,7 @@ function Home() {
       <div className="row w-100 p-4">
         <div className="col-md-9">
           <h4>All Videos</h4>
-          <View/>
+          <View addStatus={addStatus}/>
         </div>
         <div className="col-md-3">
           <Category/>

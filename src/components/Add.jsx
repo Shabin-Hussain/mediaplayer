@@ -9,7 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
-function Add() {
+function Add({setAddStatus}) {
   //create a state to hold data from input
   const [video, setVideo] = useState({
     caption: "",
@@ -80,6 +80,7 @@ function Add() {
       console.log(result);
       if(result.status>=200 && result.status<300){
         toast.success('Video Uploaded Successfully')
+        setAddStatus(result.data)
         handleClose()
       }
       else{

@@ -4,9 +4,10 @@ import Videocard from './Videocard'
 import { getVideoApi } from '../services/allApi'
 
 
-function View() {
+
+function View({addStatus}) {
    const[videoDetails,setVideoDetails] = useState([])
-    
+   const[deleteVideoStatus,setDeleteVideoStatus] = useState([])
 
 
    //side effect
@@ -20,7 +21,7 @@ function View() {
 
    useEffect(()=>{
       getvideo()
-   },[])
+   },[addStatus,deleteVideoStatus])
 
    console.log(videoDetails);
    
@@ -33,7 +34,7 @@ function View() {
       
          {videoDetails?.length>0?
          videoDetails.map((item)=>(<Col xs={12} md={6} lg={4} xl={3} className='d-flex justify-content-center align-items-center'>
-            <Videocard displayVideo={item}/>
+            <Videocard displayVideo={item} setDeleteVideoStatus={setDeleteVideoStatus}/>
          </Col>))
          :
    

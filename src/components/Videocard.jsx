@@ -3,15 +3,23 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react'
 import Card from 'react-bootstrap/Card';
 import Modal from 'react-bootstrap/Modal';
+import { deleteVideoApi } from '../services/allApi';
 
 
-function Videocard({displayVideo}) {
+function Videocard({displayVideo, setDeleteVideoStatus}) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   console.log(displayVideo);
+
+  const handleDelete = async(id)=>{
+    const result = await deleteVideoApi(id)
+    console.log(result);
+    setDeleteVideoStatus(result.data)
+    
+  }
   
 
   return (
@@ -23,7 +31,7 @@ function Videocard({displayVideo}) {
         <Card.Text>
           {displayVideo?.caption}
         </Card.Text>
-        <button className='btn btn-danger ms-auto'><FontAwesomeIcon icon={faTrash} /></button>
+        <button className='btn btn-danger ms-auto' onClick={()=>handleDelete(displayVideo?.id)}><FontAwesomeIcon icon={faTrash} /></button>
       </Card.Body>
     </Card>
 
