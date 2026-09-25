@@ -3,14 +3,31 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react'
 import Card from 'react-bootstrap/Card';
 import Modal from 'react-bootstrap/Modal';
-import { deleteVideoApi } from '../services/allApi';
+import { addToHistoryApi, deleteVideoApi } from '../services/allApi';
 
 
 function Videocard({displayVideo, setDeleteVideoStatus}) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = async() =>{ 
+    setShow(true);
+    let caption = displayVideo?.caption
+    let url = displayVideo?.url
+    let time = new Date()
+    let timeStamp = new Intl.DateTimeFormat("en-GB",{year:'numeric',month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit',second:'2-digit'}).format(time)
+
+    console.log(timeStamp);
+
+    const reqBody = {
+      caption , url, timeStamp
+    }
+
+    const result = await addToHistoryApi(reqBody)
+    console.log(result);
+    
+    
+   }
 
   console.log(displayVideo);
 
