@@ -23,3 +23,8 @@ export const deleteVideoApi = async(id)=>{
 export const addToHistoryApi = async(reqbody)=>{
   return await commonApi('POST',`${serverUrl}/history`,reqbody)
 }
+
+//api to get video from watch history
+export const getVideoFromHistory = async()=>{
+  return await commonApi('GET',`${serverUrl}/history`,"")
+}
