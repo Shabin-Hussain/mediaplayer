@@ -33,3 +33,13 @@ export const getVideoFromHistory = async()=>{
 export const deleteVideoFromHistory = async(id)=>{
  return await commonApi('DELETE',`${serverUrl}/history/${id}`,{})
 }
+
+//api to add category
+export const addCategoryApi = async(reqbody)=>{
+  return await commonApi('POST',`${serverUrl}/category`,reqbody)
+}
+
+//api to get all category
+export const AllCategoryApi = async()=>{
+  return await commonApi('GET',`${serverUrl}/category`,"")
+}
