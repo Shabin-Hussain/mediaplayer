@@ -43,3 +43,8 @@ export const addCategoryApi = async(reqbody)=>{
 export const AllCategoryApi = async()=>{
   return await commonApi('GET',`${serverUrl}/category`,"")
 }
+
+//api to delete category
+export const deleteCategoryApi = async(id)=>{
+ return await commonApi('DELETE',`${serverUrl}/category/${id}`,{})
+}

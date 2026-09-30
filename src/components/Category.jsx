@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import Videocard from './Videocard'
 import { Button, Col, Modal, Row } from 'react-bootstrap'
 import { toast } from 'react-toastify'
-import { addCategoryApi, AllCategoryApi } from '../services/allApi'
+import { addCategoryApi, AllCategoryApi, deleteCategoryApi } from '../services/allApi'
 
 
 
@@ -58,6 +58,13 @@ function Category() {
   }
   console.log(allCategory);
 
+  const delCategory = async(id)=>{
+    const result = await deleteCategoryApi(id)
+    console.log(result);
+    getAllCategory()
+    
+  }
+
    useEffect(()=>{
     setAddStatus(false)
     getAllCategory()
@@ -77,7 +84,7 @@ function Category() {
         <div className='border border-secondary mt-3 rounded p-3 ms-4 ms-md-0'>
             <div className='d-flex'>
                <h6>{item.CategoryName}</h6>
-               <button className='btn btn-danger ms-auto'><FontAwesomeIcon icon={faTrashCan} /></button>
+               <button className='btn btn-danger ms-auto' onClick={()=>delCategory(item.id)}><FontAwesomeIcon icon={faTrashCan} /></button>
             </div>
             <Row>
           {item?.allVideo?.length>0?

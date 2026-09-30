@@ -37,11 +37,18 @@ function Videocard({displayVideo, setDeleteVideoStatus}) {
     setDeleteVideoStatus(result.data)
     
   }
+
+  const videoDrag = (e,id)=>{
+    console.log('Video dragged is', id);
+    e.dataTransfer.setData("videoId",id)
+    
+
+  }
   
 
   return (
     <>
-     <Card style={{ width: '100%' }} className='mt-4'>
+     <Card style={{ width: '100%' }} className='mt-4' draggable onDragStart={(e)=>videoDrag(e,displayVideo?.id)}>
       <Card.Img onClick={handleShow} variant="top" /* src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkB2U_1-LL8BraSx9uXbQ_8_tyWuq5YiqzP_6oUECXscI-mCk3jegHI4lU&s=10" */ src={displayVideo?.image} width={'100%'} height={'300px'}/>
       <Card.Body className='d-flex'>
         
