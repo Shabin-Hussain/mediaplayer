@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import Videocard from './Videocard'
 import { Button, Col, Modal, Row } from 'react-bootstrap'
 import { toast } from 'react-toastify'
-import { addCategoryApi, AllCategoryApi, deleteCategoryApi } from '../services/allApi'
+import { addCategoryApi, AllCategoryApi, AvideoApi, deleteCategoryApi, updateCategoryApi } from '../services/allApi'
 
 
 
@@ -65,6 +65,33 @@ function Category() {
     
   }
 
+   const DragOver = (e)=>{
+    e.preventDefault()
+  }
+
+
+  const VideoDrop = async(e,categoryId) =>{
+     console.log(`category id is :${categoryId}`);
+     //access the video id from view component
+     const videoId = e.dataTransfer.getData("videoId")
+     console.log("video id is :",videoId);
+     //get video details from backend
+     const {data} = await AvideoApi(videoId)
+     console.log(data);
+
+     const selectedCategory = allCategory.find((item)=>item.id==categoryId)
+
+     if(selectedCategory.allVideo.find((item)=>item.id==data.id)){
+      toast.warning('Video already exist in category')
+     }
+     else{
+      selectedCategory.allVideo.push(data)
+      await updateCategoryApi(categoryId,selectedCategory)
+     }
+     
+     
+     
+  }
    useEffect(()=>{
     setAddStatus(false)
     getAllCategory()
@@ -80,8 +107,8 @@ function Category() {
     </div>
 
    {allCategory?.length>0?
-   allCategory?.map((item)=>(<div className='mt-md-5 mt-2'>
-        <div className='border border-secondary mt-3 rounded p-3 ms-4 ms-md-0'>
+   allCategory?.map((item)=>(<div className='mt-md-5 mt-2' droppable onDragOver={(e)=>DragOver(e)} onDrop={(e)=>VideoDrop(e,item.id)}>
+        <div className='border border-secondary mt-3 rounded p-3 ms-4 ms-md-0' >
             <div className='d-flex'>
                <h6>{item.CategoryName}</h6>
                <button className='btn btn-danger ms-auto' onClick={()=>delCategory(item.id)}><FontAwesomeIcon icon={faTrashCan} /></button>
