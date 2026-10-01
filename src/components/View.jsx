@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import Videocard from './Videocard'
-import { getVideoApi } from '../services/allApi'
+import { AllCategoryApi, getVideoApi, updateCategoryApi } from '../services/allApi'
 
 
 
-function View({addStatus}) {
+function View({addStatus,setDragStatus}) {
    const[videoDetails,setVideoDetails] = useState([])
    const[deleteVideoStatus,setDeleteVideoStatus] = useState([])
 
@@ -16,6 +16,39 @@ function View({addStatus}) {
    console.log(result.data);
    setVideoDetails(result.data)
    
+   }
+
+
+   const DragOver = (e)=>{
+      e.preventDefault()
+
+   }
+
+   const videoDrop = async(e) =>{
+      const{videoId,categoryId} = JSON.parse(e.dataTransfer.getData("dataShared"))
+      console.log(videoId , categoryId);
+      //get all category
+      const {data} = await AllCategoryApi()
+      console.log(data);
+      //get selected category
+      const selectedCategory = data.find((item)=>item.id==categoryId)
+      console.log(selectedCategory);
+      //remove video from the selected category
+      const result = selectedCategory.allVideo.filter((item)=>item.id!=videoId)
+      console.log(result);
+      
+      
+
+      const reqBody ={
+         CategoryName: selectedCategory.CategoryName,
+         allVideo:result,
+         id:selectedCategory.id
+      }
+
+      await updateCategoryApi(categoryId,reqBody)
+      setDragStatus(true)
+      
+
    }
 
 
@@ -30,7 +63,7 @@ function View({addStatus}) {
 
 
   return (
-    <Row className='w-100 ms-4 ms-md-0'>
+    <Row className='w-100 ms-4 ms-md-0' droppable onDragOver={(e)=>DragOver(e)} onDrop={(e)=>videoDrop(e)}>
       
          {videoDetails?.length>0?
          videoDetails.map((item)=>(<Col xs={12} md={6} lg={4} xl={3} className='d-flex justify-content-center align-items-center'>

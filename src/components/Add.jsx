@@ -85,6 +85,8 @@ function Add({setAddStatus}) {
       }
       else{
         toast.error('Something went wrong')
+        console.log(result);
+        
         handleClose()
       }
       

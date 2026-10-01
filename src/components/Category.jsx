@@ -12,7 +12,7 @@ import { addCategoryApi, AllCategoryApi, AvideoApi, deleteCategoryApi, updateCat
 
 
 
-function Category() {
+function Category({dragStatus,setDragStatus}) {
    const [show, setShow] = useState(false);
    const[CategoryName, setCategoryName] = useState("")
    const[allCategory, setAllCategory] = useState([]) 
@@ -87,17 +87,33 @@ function Category() {
      else{
       selectedCategory.allVideo.push(data)
       await updateCategoryApi(categoryId,selectedCategory)
+      getAllCategory()
      }
      
      
      
   }
+
+  console.log(allCategory);
+
+  const DragStart = (e,videoId,categoryId)=>{
+    console.log(videoId);
+    console.log(categoryId);
+    let datashare = {
+      videoId, categoryId
+    }
+
+    e.dataTransfer.setData("dataShared",JSON.stringify(datashare))
+    
+
+  }
+  
    useEffect(()=>{
     setAddStatus(false)
     getAllCategory()
-    
+    setDragStatus(false)
    
-  },[addStatus])
+  },[addStatus,dragStatus])
 
 
   return (
@@ -116,7 +132,7 @@ function Category() {
             <Row>
           {item?.allVideo?.length>0?
           item?.allVideo?.map((videoItem)=>(
-          <Col sm={12} >
+          <Col sm={12} draggable onDragStart={(e)=>DragStart(e,videoItem.id,item.id)}>
           <Videocard displayVideo = {videoItem} isPresent={true}/>
           </Col>))
           :

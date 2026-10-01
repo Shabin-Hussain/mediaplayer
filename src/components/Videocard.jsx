@@ -6,7 +6,7 @@ import Modal from 'react-bootstrap/Modal';
 import { addToHistoryApi, deleteVideoApi } from '../services/allApi';
 
 
-function Videocard({displayVideo, setDeleteVideoStatus}) {
+function Videocard({displayVideo, setDeleteVideoStatus,isPresent}) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -49,13 +49,13 @@ function Videocard({displayVideo, setDeleteVideoStatus}) {
   return (
     <>
      <Card style={{ width: '100%' }} className='mt-4' draggable onDragStart={(e)=>videoDrag(e,displayVideo?.id)}>
-      <Card.Img onClick={handleShow} variant="top" /* src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkB2U_1-LL8BraSx9uXbQ_8_tyWuq5YiqzP_6oUECXscI-mCk3jegHI4lU&s=10" */ src={displayVideo?.image} width={'100%'} height={'300px'}/>
+     {!isPresent && <Card.Img onClick={handleShow} variant="top" /* src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkB2U_1-LL8BraSx9uXbQ_8_tyWuq5YiqzP_6oUECXscI-mCk3jegHI4lU&s=10" */ src={displayVideo?.image} width={'100%'} height={'300px'}/>}
       <Card.Body className='d-flex'>
         
         <Card.Text>
           {displayVideo?.caption}
         </Card.Text>
-        <button className='btn btn-danger ms-auto' onClick={()=>handleDelete(displayVideo?.id)}><FontAwesomeIcon icon={faTrash} /></button>
+        {!isPresent && <button className='btn btn-danger ms-auto' onClick={()=>handleDelete(displayVideo?.id)}><FontAwesomeIcon icon={faTrash} /></button>}
       </Card.Body>
     </Card>
 

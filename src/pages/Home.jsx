@@ -14,6 +14,7 @@ import Category from '../components/Category'
 
 function Home() {
   const[addStatus,setAddStatus] = useState([])
+  const[dragStatus,setDragStatus] = useState(false)
   return (
    <>
       <div className='d-flex mt-5 p-5'>
@@ -25,10 +26,10 @@ function Home() {
       <div className="row w-100 p-4">
         <div className="col-md-9">
           <h4>All Videos</h4>
-          <View addStatus={addStatus}/>
+          <View addStatus={addStatus} setDragStatus={setDragStatus} />
         </div>
         <div className="col-md-3">
-          <Category/>
+          <Category dragStatus={dragStatus} setDragStatus={setDragStatus}/>
         </div>
       </div>
    </>
